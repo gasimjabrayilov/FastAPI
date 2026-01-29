@@ -1,0 +1,46 @@
+(.venv) PS C:\Users\Kasim\OneDrive\Desktop\FastAPI Projects\fastapi\TodoAppMysql> pytest --disable-warnings
+======================================================================================================= test session starts =======================================================================================================
+platform win32 -- Python 3.13.5, pytest-9.0.2, pluggy-1.6.0
+rootdir: C:\Users\Kasim\OneDrive\Desktop\FastAPI Projects\fastapi\TodoAppMysql
+plugins: anyio-4.12.1, asyncio-1.3.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 27 items
+
+test\test_admin.py ...                                                                                                                                                                                                       [ 11%]
+test\test_auth.py ...F                                                                                                                                                                                                       [ 25%]
+test\test_example.py .......                                                                                                                                                                                                 [ 51%]
+test\test_main.py .                                                                                                                                                                                                          [ 55%]
+test\test_todos.py ........                                                                                                                                                                                                  [ 85%]
+test\test_users.py ....                                                                                                                                                                                                      [100%]
+
+============================================================================================================ FAILURES =============================================================================================================
+______________________________________________________________________________________________ test_get_current_user_missing_payload ______________________________________________________________________________________________
+
+    @pytest.mark.asyncio
+    async def test_get_current_user_missing_payload():
+        encode = {'role': 'user'}
+        token = jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
+
+        with pytest.raises(HTTPException) as excinfo:
+>           await get_current_user(token)
+
+test\test_auth.py:49:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoidXNlciJ9.DtKFVBiDFq1dGNKqbhutWUibA_poVpzh3dDwEagresM'
+
+    async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            username: str = payload.get('sub')
+            user_id: int = payload.get('id')
+            user_role: str = payload.get('role')
+            if username is None or user_id is None:
+>               raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED,
+                                    detail= 'Could not validate user.')
+E                                   TypeError: HTTPException() takes no keyword arguments
+
+routers\auth.py:77: TypeError
+===================================================================================================== short test summary info =====================================================================================================
+FAILED test/test_auth.py::test_get_current_user_missing_payload - TypeError: HTTPException() takes no keyword arguments
+============================================================================================ 1 failed, 26 passed, 2 warnings in 3.62s ==========
