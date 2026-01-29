@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 # SQLALCHEMY_DATABASE_URL = 'mysql+pymysql://root:0000@127.0.0.1:3306/todoapplicationdatabase'
-SQLALCHEMY_DATABASE_URL = 'https://epxhvtexuhopitruwszi.supabase.co'
+SQLALCHEMY_DATABASE_URL = 'postgresql://postgres:[KhCnBptVm9NAkPG5]@db.epxhvtexuhopitruwszi.supabase.co:5432/postgres'
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
